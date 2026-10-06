@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pricing — SessionActivity</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white">
+
+<nav class="flex justify-between items-center px-6 py-4 bg-slate-800/90 backdrop-blur sticky top-0 z-50">
+  <a href="index.html" class="text-xl font-bold">📍 SessionActivity</a>
+  <div class="hidden md:flex gap-6 text-sm">
+    <a href="index.html" class="hover:text-blue-400">Home</a>
+    <a href="about.html" class="hover:text-blue-400">About</a>
+    <a href="pricing.html" class="text-blue-400">Pricing</a>
+    <a href="download.html" class="hover:text-blue-400">Download</a>
+    <a href="contact.html" class="hover:text-blue-400">Contact</a>
+  </div>
+  <a href="download.html" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-sm font-semibold">Get the App</a>
+</nav>
+
+<main class="max-w-6xl mx-auto px-6 py-16">
+  <h1 class="text-4xl md:text-5xl font-bold text-center mb-4">Simple, transparent pricing</h1>
+  <p class="text-center text-slate-400 mb-12">Start free. Upgrade when you need more pings, more devices, or more channels.</p>
+
+  <div class="grid md:grid-cols-3 gap-8">
+
+    <!-- FREE -->
+    <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 flex flex-col">
+      <h2 class="text-2xl font-bold mb-2">Free</h2>
+      <p class="text-4xl font-extrabold mb-4">$0<span class="text-base font-normal text-slate-400">/mo</span></p>
+      <ul class="text-slate-300 space-y-3 mb-6 flex-1 text-sm">
+        <li>✅ 1 device</li>
+        <li>✅ Manual location pings</li>
+        <li>✅ 7-day history</li>
+        <li>❌ Email notifications</li>
+        <li>❌ SMS / WhatsApp</li>
+        <li>❌ Scheduled auto-pings</li>
+      </ul>
+      <a href="download.html" class="text-center bg-slate-700 hover:bg-slate-600 p-3 rounded-lg font-semibold">Download Free</a>
+    </div>
+
+    <!-- PRO (Stripe link) -->
+    <div class="bg-slate-800 rounded-2xl p-8 border-2 border-blue-500 flex flex-col relative">
+      <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-xs px-3 py-1 rounded-full font-bold">MOST POPULAR</span>
+      <h2 class="text-2xl font-bold mb-2">Pro</h2>
+      <p class="text-4xl font-extrabold mb-4">$9<span class="text-base font-normal text-slate-400">/mo</span></p>
+      <ul class="text-slate-300 space-y-3 mb-6 flex-1 text-sm">
+        <li>✅ 3 devices</li>
+        <li>✅ Auto-scheduled pings</li>
+        <li>✅ Email notifications</li>
+        <li>✅ SMS notifications</li>
+        <li>✅ 90-day history</li>
+        <li>✅ Priority support</li>
+      </ul>
+      <!-- 👇 REPLACE WITH YOUR STRIPE PAYMENT LINK -->
+      <a href="https://buy.stripe.com/REPLACE_WITH_YOUR_PRO_LINK"
+         class="text-center bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-semibold">
+         Subscribe — $9/mo
+      </a>
+    </div>
+
+    <!-- BUSINESS (Stripe link) -->
+    <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 flex flex-col">
+      <h2 class="text-2xl font-bold mb-2">Business</h2>
+      <p class="text-4xl font-extrabold mb-4">$29<span class="text-base font-normal text-slate-400">/mo</span></p>
+      <ul class="text-slate-300 space-y-3 mb-6 flex-1 text-sm">
+        <li>✅ 10 devices</li>
+        <li>✅ WhatsApp notifications</li>
+        <li>✅ API access</li>
+        <li>✅ Team management</li>
+        <li>✅ 1-year history</li>
+        <li>✅ Dedicated support</li>
+      </ul>
+      <!-- 👇 REPLACE WITH YOUR STRIPE PAYMENT LINK -->
+      <a href="https://buy.stripe.com/REPLACE_WITH_YOUR_BIZ_LINK"
+         class="text-center bg-slate-700 hover:bg-slate-600 p-3 rounded-lg font-semibold">
+         Subscribe — $29/mo
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FAQ -->
+  <section class="mt-20 max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-8">Frequently asked</h2>
+    <div class="space-y-4">
+      <details class="bg-slate-800 p-5 rounded-xl">
+        <summary class="font-semibold cursor-pointer">Can I cancel anytime?</summary>
+        <p class="text-slate-400 mt-3">Yes. Cancel from your Stripe customer portal — no questions asked.</p>
+      </details>
+      <details class="bg-slate-800 p-5 rounded-xl">
+        <summary class="font-semibold cursor-pointer">Which payment methods work?</summary>
+        <p class="text-slate-400 mt-3">All major cards, Apple Pay, Google Pay, and Link — all handled securely by Stripe.</p>
+      </details>
+      <details class="bg-slate-800 p-5 rounded-xl">
+        <summary class="font-semibold cursor-pointer">Do you offer refunds?</summary>
+        <p class="text-slate-400 mt-3">Yes — a full refund within 14 days if you're not satisfied.</p>
+      </details>
+      <details class="bg-slate-800 p-5 rounded-xl">
+        <summary class="font-semibold cursor-pointer">Is my location data safe?</summary>
+        <p class="text-slate-400 mt-3">Always. We track only your device, only with your consent, and never sell data.</p>
+      </details>
+    </div>
+  </section>
+
+  <p class="text-center text-slate-500 text-sm mt-12">
+    Payments processed securely by <a href="https://stripe.com" class="text-blue-400 underline">Stripe</a>. Cancel anytime.
+  </p>
+</main>
+
+<footer class="px-6 py-10 bg-slate-950 text-slate-400 text-sm text-center mt-16">
+  <div class="flex flex-wrap gap-6 justify-center mb-4">
+    <a href="about.html" class="hover:text-white">About</a>
+    <a href="pricing.html" class="hover:text-white">Pricing</a>
+    <a href="download.html" class="hover:text-white">Download</a>
+    <a href="privacy.html" class="hover:text-white">Privacy</a>
+    <a href="terms.html" class="hover:text-white">Terms</a>
+    <a href="contact.html" class="hover:text-white">Contact</a>
+  </div>
+  <p>© <span id="year"></span> SessionActivity. All rights reserved.</p>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
