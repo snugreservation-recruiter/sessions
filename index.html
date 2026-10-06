@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SessionActivity — Location Pings to Your Email & Phone</title>
+<meta name="description" content="SessionActivity sends automatic location updates to your email and phone on the schedule you choose." />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="bg-slate-900 text-white">
+
+<!-- NAV -->
+<nav class="flex justify-between items-center px-6 py-4 bg-slate-800/90 backdrop-blur sticky top-0 z-50">
+  <a href="index.html" class="text-xl font-bold">📍 SessionActivity</a>
+  <div class="hidden md:flex gap-6 text-sm">
+    <a href="index.html" class="hover:text-blue-400">Home</a>
+    <a href="about.html" class="hover:text-blue-400">About</a>
+    <a href="pricing.html" class="hover:text-blue-400">Pricing</a>
+    <a href="download.html" class="hover:text-blue-400">Download</a>
+    <a href="contact.html" class="hover:text-blue-400">Contact</a>
+  </div>
+  <div class="flex gap-3">
+    <a href="download.html" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-sm font-semibold">Get the App</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="text-center px-6 py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+  <span class="inline-block bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full mb-6">v1.0 — Now available</span>
+  <h1 class="text-5xl md:text-6xl font-extrabold mb-6">Your location, <span class="text-blue-400">delivered on time.</span></h1>
+  <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-10">
+    SessionActivity pings your email and phone with your live location — place name, timestamp, and a map link — on the schedule you set.
+  </p>
+  <div class="flex gap-4 justify-center flex-wrap">
+    <a href="download.html" class="px-8 py-4 rounded-xl bg-blue-500 hover:bg-blue-600 font-semibold">⬇ Download Now</a>
+    <a href="pricing.html" class="px-8 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 font-semibold">See Pricing</a>
+  </div>
+</header>
+
+<!-- FEATURES -->
+<section class="px-6 py-20 max-w-6xl mx-auto">
+  <h2 class="text-3xl font-bold text-center mb-12">Why SessionActivity?</h2>
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="bg-slate-800 p-8 rounded-2xl">
+      <div class="text-3xl mb-4">📧</div>
+      <h3 class="text-xl font-bold mb-2">Email Pings</h3>
+      <p class="text-slate-400">Every schedule hit sends you a clean email with place name, time, and a Google Maps link.</p>
+    </div>
+    <div class="bg-slate-800 p-8 rounded-2xl">
+      <div class="text-3xl mb-4">💬</div>
+      <h3 class="text-xl font-bold mb-2">SMS & WhatsApp</h3>
+      <p class="text-slate-400">Choose your channel — SMS to any number, or WhatsApp Business messages.</p>
+    </div>
+    <div class="bg-slate-800 p-8 rounded-2xl">
+      <div class="text-3xl mb-4">⏱️</div>
+      <h3 class="text-xl font-bold mb-2">Custom Schedules</h3>
+      <p class="text-slate-400">Every 15 min, hourly, or once a day — full control from the app.</p>
+    </div>
+    <div class="bg-slate-800 p-8 rounded-2xl">
+      <div class="text-3xl mb-4">🔒</div>
+      <h3 class="text-xl font-bold mb-2">Private by Design</h3>
+      <p class="text-slate-400">Only your own device. Explicit consent. Delete your data anytime.</p>
+    </div>
+    <div class="bg-slate-800 p-8 rounded-2xl">
+      <div class="text-3xl mb-4">🗺️</div>
+      <h3 class="text-xl font-bold mb-2">Real Place Names</h3>
+      <p class="text-slate-400">We reverse-geocode coordinates into readable street addresses.</p>
+    </div>
+    <div class="bg-slate-800 p-8 rounded-2xl">
+      <div class="text-3xl mb-4">📱</div>
+      <h3 class="text-xl font-bold mb-2">Cross-Platform</h3>
+      <p class="text-slate-400">Available for Android, iOS, and as a Web App.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="px-6 py-20 text-center bg-slate-800">
+  <h2 class="text-3xl font-bold mb-4">Ready to stay in the loop?</h2>
+  <p class="text-slate-300 mb-6">Download SessionActivity free, upgrade when you need more.</p>
+  <div class="flex gap-4 justify-center flex-wrap">
+    <a href="download.html" class="px-8 py-4 rounded-xl bg-blue-500 hover:bg-blue-600 font-semibold">⬇ Download</a>
+    <a href="pricing.html" class="px-8 py-4 rounded-xl bg-slate-700 hover:bg-slate-600 font-semibold">Compare Plans</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="px-6 py-10 bg-slate-950 text-slate-400 text-sm text-center">
+  <div class="flex flex-wrap gap-6 justify-center mb-4">
+    <a href="about.html" class="hover:text-white">About</a>
+    <a href="pricing.html" class="hover:text-white">Pricing</a>
+    <a href="download.html" class="hover:text-white">Download</a>
+    <a href="privacy.html" class="hover:text-white">Privacy</a>
+    <a href="terms.html" class="hover:text-white">Terms</a>
+    <a href="contact.html" class="hover:text-white">Contact</a>
+  </div>
+  <p>© <span id="year"></span> SessionActivity. All rights reserved.</p>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
