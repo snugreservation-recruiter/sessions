@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy — SessionActivity</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-slate-900 text-white">
+<main class="max-w-3xl mx-auto p-8">
+  <a href="index.html" class="text-blue-400 underline">← Back home</a>
+  <h1 class="text-3xl font-bold my-6">Privacy Policy</h1>
+  <p class="text-slate-300">SessionActivity tracks <b>only your own device</b>, only after you grant permission. We never track third parties and we never sell your data.</p>
+
+  <h2 class="text-xl font-semibold mt-8 mb-2">What we collect</h2>
+  <ul class="list-disc list-inside text-slate-300">
+    <li>Your name, email, and phone number</li>
+    <li>Your device's GPS coordinates when a ping fires</li>
+    <li>Timestamps of each ping</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mt-8 mb-2">Your rights</h2>
+  <p class="text-slate-300">You can delete your data at any time from the app, or by emailing support@sessionactivity.app.</p>
+
+  <p class="text-slate-500 text-sm mt-10">Last updated: <span id="d"></span></p>
+  <script>d.textContent = new Date().toLocaleDateString();</script>
+</main>
+</body>
+</html>
