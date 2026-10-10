@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Download — SessionActivity</title>
-<script src="https://cdn.tailwindcss.com"></script>
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — SessionActivity</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
 <body class="bg-slate-900 text-white">
 
 <nav class="flex justify-between items-center px-6 py-4 bg-slate-800/90 backdrop-blur sticky top-0 z-50">
@@ -14,93 +11,30 @@
     <a href="index.html" class="hover:text-blue-400">Home</a>
     <a href="about.html" class="hover:text-blue-400">About</a>
     <a href="pricing.html" class="hover:text-blue-400">Pricing</a>
-    <a href="download.html" class="text-blue-400">Download</a>
-    <a href="contact.html" class="hover:text-blue-400">Contact</a>
+    <a href="download.html" class="hover:text-blue-400">Download</a>
+    <a href="contact.html" class="text-blue-400">Contact</a>
   </div>
-  <a href="pricing.html" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-sm font-semibold">Upgrade</a>
+  <a href="download.html" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-sm font-semibold">Get the App</a>
 </nav>
 
-<main class="max-w-4xl mx-auto px-6 py-20">
-  <div class="text-center mb-16">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">Get SessionActivity</h1>
-    <p class="text-slate-400 max-w-xl mx-auto">Choose your platform. Same account across all devices.</p>
+<main class="max-w-xl mx-auto p-8">
+  <h1 class="text-3xl font-bold my-6">Contact Us</h1>
+  <p class="text-slate-300 mb-6">Questions, bugs, or feature requests? Send us a message.</p>
+
+  <form onsubmit="event.preventDefault(); msg.textContent='Thanks! We’ll get back to you within 1 business day.';"
+        class="bg-slate-800 p-6 rounded-2xl space-y-4">
+    <input required placeholder="Your name" class="w-full p-3 rounded-lg bg-slate-700 outline-none focus:ring-2 focus:ring-blue-500" />
+    <input required type="email" placeholder="Your email" class="w-full p-3 rounded-lg bg-slate-700 outline-none focus:ring-2 focus:ring-blue-500" />
+    <textarea required rows="5" placeholder="Message" class="w-full p-3 rounded-lg bg-slate-700 outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+    <button class="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-semibold">Send Message</button>
+    <p id="msg" class="text-sm text-green-400"></p>
+  </form>
+
+  <div class="mt-8 text-slate-400 text-sm space-y-2">
+    <p>📧 support@sessionactivity.com</p>
+    <p>💬 WhatsApp: +1 (218) 251-4107</p>
+    <p>🕒 Response time: within 1 business day</p>
   </div>
-
-  <div class="grid md:grid-cols-3 gap-6 mb-16">
-
-    <!-- ANDROID -->
-    <div class="bg-slate-800 p-8 rounded-2xl text-center flex flex-col">
-      <div class="text-5xl mb-4">🤖</div>
-      <h2 class="text-xl font-bold mb-2">Android</h2>
-      <p class="text-slate-400 text-sm mb-6 flex-1">Android 8.0 and above. Direct APK or Play Store.</p>
-      <!-- 👇 REPLACE WITH YOUR PLAY STORE / APK LINK -->
-      <a href="#" class="bg-green-500 hover:bg-green-600 p-3 rounded-lg font-semibold">Get for Android</a>
-    </div>
-
-    <!-- iOS -->
-    <div class="bg-slate-800 p-8 rounded-2xl text-center flex flex-col">
-      <div class="text-5xl mb-4">🍎</div>
-      <h2 class="text-xl font-bold mb-2">iOS</h2>
-      <p class="text-slate-400 text-sm mb-6 flex-1">iOS 14 and above. Available on the App Store.</p>
-      <!-- 👇 REPLACE WITH YOUR APP STORE LINK -->
-      <a href="#" class="bg-slate-700 hover:bg-slate-600 p-3 rounded-lg font-semibold">Get for iOS</a>
-    </div>
-
-    <!-- WEB APP -->
-    <div class="bg-slate-800 p-8 rounded-2xl text-center flex flex-col">
-      <div class="text-5xl mb-4">🌐</div>
-      <h2 class="text-xl font-bold mb-2">Web App</h2>
-      <p class="text-slate-400 text-sm mb-6 flex-1">Run it in your browser. Install as PWA.</p>
-      <!-- 👇 REPLACE WITH YOUR WEB APP URL (e.g. app.sessionactivity.com) -->
-      <a href="#" class="bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-semibold">Launch Web App</a>
-    </div>
-
-  </div>
-
-  <!-- DIRECT APK DOWNLOAD -->
-  <div class="bg-slate-800 p-8 rounded-2xl mb-12">
-    <h2 class="text-2xl font-bold mb-3">📦 Direct APK Download</h2>
-    <p class="text-slate-400 mb-6 text-sm">
-      Prefer to sideload? Grab the latest signed APK. Enable "Install from unknown sources" on Android first.
-    </p>
-    <div class="flex flex-wrap gap-4">
-      <!-- 👇 UPLOAD YOUR APK TO THE REPO'S /downloads/ FOLDER AND POINT TO IT -->
-      <a href="downloads/sessionactivity-v1.0.apk"
-         class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold"
-         download>
-         ⬇ Download APK (v1.0)
-      </a>
-      <span class="text-slate-400 text-sm self-center">Size: ~12 MB · SHA-256 available on GitHub Releases</span>
-    </div>
-  </div>
-
-  <!-- INSTALL STEPS -->
-  <div class="bg-slate-800 p-8 rounded-2xl">
-    <h2 class="text-2xl font-bold mb-6">How to install</h2>
-    <ol class="space-y-4 text-slate-300">
-      <li class="flex gap-4">
-        <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">1</span>
-        <span>Download SessionActivity from your platform above.</span>
-      </li>
-      <li class="flex gap-4">
-        <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">2</span>
-        <span>Open the app and create your free account.</span>
-      </li>
-      <li class="flex gap-4">
-        <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">3</span>
-        <span>Grant location permission when prompted — the app only tracks your own device.</span>
-      </li>
-      <li class="flex gap-4">
-        <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">4</span>
-        <span>Set your schedule and notification channels (email, SMS, WhatsApp).</span>
-      </li>
-      <li class="flex gap-4">
-        <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">5</span>
-        <span>Upgrade to Pro or Business from the <a href="pricing.html" class="text-blue-400 underline">Pricing page</a> when ready.</span>
-      </li>
-    </ol>
-  </div>
-
 </main>
 
 <footer class="px-6 py-10 bg-slate-950 text-slate-400 text-sm text-center">
